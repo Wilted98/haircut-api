@@ -5,9 +5,10 @@ import { Options } from "@mikro-orm/core";
 
 export const config: Options = {
   entities: [User],
+  type: "postgresql",
   dbName: "haircut",
   password: "123",
-  type: "postgresql",
+  user: "postgres",
   debug: __prod__,
   allowGlobalContext: true,
   migrations: {
