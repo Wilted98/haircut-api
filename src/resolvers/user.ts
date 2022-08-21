@@ -105,6 +105,7 @@ export class userResolver {
       name: options.username,
       email: options.email,
       password: hashedPassword,
+      salon: 1,
     });
 
     await em.persistAndFlush(user);
@@ -115,7 +116,7 @@ export class userResolver {
   }
   @Query(() => [User])
   async getUsers(@Ctx() { em }: any) {
-    const users = em.find(User, {});
+    const users = await em.find(User, {});
 
     return users;
   }

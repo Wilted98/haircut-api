@@ -1,7 +1,7 @@
 import { MikroORM } from "@mikro-orm/core";
 import express from "express";
 import { __prod__ } from "./constants";
-import { config } from "./mikro-orm.config";
+import config from "./mikro-orm.config";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { userResolver } from "./resolvers/user";
@@ -9,7 +9,7 @@ import { MyContext } from "./types";
 import connectRedis from "connect-redis";
 import session from "express-session";
 import * as redis from "redis";
-
+import { salonResolver } from "./resolvers/salon";
 const main = async () => {
   const orm = await MikroORM.init(config);
   await orm.getMigrator().up();
@@ -42,7 +42,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [userResolver],
+      resolvers: [userResolver, salonResolver],
       validate: false,
     }),
     context: ({ req, res }): MyContext => ({ em: orm.em, req, res }),
