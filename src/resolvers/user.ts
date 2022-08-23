@@ -51,7 +51,7 @@ export class userResolver {
   @Mutation(() => userResponse)
   async register(
     @Arg("options") options: UserRegisterOptions,
-    @Ctx() { em, req }: MyContext
+    @Ctx() { req }: MyContext
   ): Promise<userResponse> {
     const errors = [];
 
@@ -86,7 +86,7 @@ export class userResolver {
       };
     }
 
-    const checkIfExists = await em.findOne(User, { email: options.email });
+    const checkIfExists = await User.findOneBy({ email: options.email });
 
     if (checkIfExists) {
       return {
@@ -101,40 +101,36 @@ export class userResolver {
 
     const hashedPassword = await argon2.hash(options.password);
 
-    const user = em.create(User, {
+    const user = await User.create({
       name: options.username,
       email: options.email,
       password: hashedPassword,
-      salon: 1,
-    });
+    }).save();
 
-    await em.persistAndFlush(user);
     req.session.userId = user.id;
     return {
       user,
     };
   }
   @Query(() => [User])
-  async getUsers(@Ctx() { em }: any) {
-    const users = await em.find(User, {});
+  async getUsers() {
+    const users = await User.find({ relations: { salon: true } });
 
     return users;
   }
   @Query(() => User, { nullable: true })
-  async me(@Ctx() { em, req }: MyContext): Promise<User | null> {
+  async me(@Ctx() { req }: MyContext): Promise<User | null> {
     if (!req.session.userId) {
       return null;
     }
-    const me = await em.findOne(User, { id: req.session.userId });
-
-    return me;
+    return await User.findOneBy({ id: req.session.userId });
   }
   @Mutation(() => userResponse)
   async login(
-    @Ctx() { em, req }: MyContext,
+    @Ctx() { req }: MyContext,
     @Arg("options") options: loginOptions
   ): Promise<userResponse> {
-    const user = await em.findOne(User, { email: options.email });
+    const user = await User.findOneBy({ email: options.email });
 
     if (!user) {
       return {

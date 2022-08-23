@@ -1,13 +1,12 @@
-import {
-  Entity,
-  Enum,
-  IdentifiedReference,
-  ManyToOne,
-  PrimaryKey,
-  Property,
-  Unique,
-} from "@mikro-orm/core";
 import { Field, ObjectType } from "type-graphql";
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Salon } from "./Salon";
 
 enum userRole {
@@ -17,37 +16,39 @@ enum userRole {
 
 @ObjectType()
 @Entity()
-export class User {
+export class User extends BaseEntity {
   @Field()
-  @Unique()
-  @PrimaryKey()
+  @PrimaryGeneratedColumn()
   id!: number;
 
   @Field()
-  @Property()
+  @Column()
   name!: string;
 
   @Field()
-  @Enum(() => userRole)
-  @Property()
-  user_type?: string = userRole.USER;
+  @Column({
+    type: "enum",
+    enum: userRole,
+    default: userRole.USER,
+  })
+  user_type?: userRole;
 
   @Field()
-  @Property({ unique: true, type: "text" })
+  @Column({ unique: true })
   email!: string;
 
   @Field(() => String)
-  @Property()
-  createdAt?: Date = new Date();
+  @CreateDateColumn()
+  createdAt?: Date;
 
   @Field(() => String)
-  @Property({ onUpdate: () => new Date() })
-  updatedAt?: Date = new Date();
+  @CreateDateColumn()
+  updatedAt?: Date;
 
-  @Property({ type: "text" })
+  @Column()
   password!: string;
 
-  @ManyToOne(() => Salon, { nullable: true, wrappedReference: true })
+  @ManyToOne(() => Salon, (salon) => salon.users)
   @Field(() => Salon, { nullable: true })
-  salon?: IdentifiedReference<Salon, "id">;
+  salon: number;
 }
