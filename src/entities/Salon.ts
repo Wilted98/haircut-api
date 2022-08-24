@@ -3,10 +3,13 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
+import { Service } from "./Service";
 
 @ObjectType()
 @Entity()
@@ -25,4 +28,8 @@ export class Salon extends BaseEntity {
 
   @OneToMany(() => User, (user) => user.salon)
   users: User[];
+
+  @ManyToMany(() => Service, (service) => service.salons)
+  @JoinTable()
+  services: Service[];
 }
