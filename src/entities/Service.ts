@@ -3,7 +3,8 @@ import {
   BaseEntity,
   Column,
   Entity,
-  ManyToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Salon } from "./Salon";
@@ -17,12 +18,16 @@ export class Service extends BaseEntity {
 
   @Field()
   @Column()
-  service_name!: string;
+  name!: string;
 
   @Field()
   @Column("int")
-  service_price!: number;
+  price!: number;
 
-  @ManyToMany(() => Salon, (salon) => salon.services)
-  salons: Salon[];
+  @ManyToOne(() => Salon, (salon) => salon.services)
+  @Field(() => Salon, { nullable: true })
+  @JoinColumn({
+    name: "salon_id",
+  })
+  salon: Salon;
 }

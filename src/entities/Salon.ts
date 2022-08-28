@@ -3,8 +3,6 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -27,9 +25,10 @@ export class Salon extends BaseEntity {
   rating?: number = 0;
 
   @OneToMany(() => User, (user) => user.salon)
+  @Field(() => [User], { nullable: true })
   users: User[];
 
-  @ManyToMany(() => Service, (service) => service.salons)
-  @JoinTable()
+  @OneToMany(() => Service, (service) => service.salon, { onDelete: "CASCADE" })
+  @Field(() => [Service], { nullable: true })
   services: Service[];
 }

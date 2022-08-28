@@ -11,6 +11,8 @@ import {
 } from "type-graphql";
 import { MyContext } from "src/types";
 import argon2 from "argon2";
+import { Salon } from "../entities/Salon";
+import { userRole } from "../entities/User";
 
 @InputType()
 class UserRegisterOptions {
@@ -20,6 +22,10 @@ class UserRegisterOptions {
   email: string;
   @Field()
   password: string;
+  @Field({ nullable: true })
+  salonId?: number;
+  @Field({ nullable: true })
+  user_type: userRole;
 }
 
 @ObjectType()
@@ -101,6 +107,25 @@ export class userResolver {
 
     const hashedPassword = await argon2.hash(options.password);
 
+    if (options.salonId) {
+      const salon = await Salon.findOne({ where: { id: options.salonId } });
+
+      if (salon) {
+        const user = await User.create({
+          name: options.username,
+          email: options.email,
+          password: hashedPassword,
+          salon,
+          user_type: options.user_type,
+        }).save();
+
+        req.session.userId = user.id;
+        return {
+          user,
+        };
+      }
+    }
+
     const user = await User.create({
       name: options.username,
       email: options.email,
@@ -172,5 +197,13 @@ export class userResolver {
         resolve(true);
       })
     );
+  }
+
+  @Query(() => [User])
+  async getAllHairStylists(): Promise<User[]> {
+    return await User.find({
+      relations: { salon: true },
+      where: { user_type: userRole.HAIRSTYLIST },
+    });
   }
 }

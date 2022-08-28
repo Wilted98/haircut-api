@@ -9,6 +9,7 @@ import session from "express-session";
 import * as redis from "redis";
 import { salonResolver } from "./resolvers/salon";
 import { myDataSource } from "./app-data-source";
+import { serviceResolver } from "./resolvers/service";
 
 const main = async () => {
   myDataSource
@@ -48,7 +49,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [userResolver, salonResolver],
+      resolvers: [userResolver, salonResolver, serviceResolver],
       validate: false,
     }),
     context: ({ req, res }): MyContext => ({ req, res }),

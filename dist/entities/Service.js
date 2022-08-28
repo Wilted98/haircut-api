@@ -24,16 +24,20 @@ __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Service.prototype, "service_name", void 0);
+], Service.prototype, "name", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)("int"),
     __metadata("design:type", Number)
-], Service.prototype, "service_price", void 0);
+], Service.prototype, "price", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => Salon_1.Salon, (salon) => salon.services),
-    __metadata("design:type", Array)
-], Service.prototype, "salons", void 0);
+    (0, typeorm_1.ManyToOne)(() => Salon_1.Salon, (salon) => salon.services),
+    (0, type_graphql_1.Field)(() => Salon_1.Salon, { nullable: true }),
+    (0, typeorm_1.JoinColumn)({
+        name: "salon_id",
+    }),
+    __metadata("design:type", Salon_1.Salon)
+], Service.prototype, "salon", void 0);
 Service = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)()

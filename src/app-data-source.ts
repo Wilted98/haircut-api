@@ -6,6 +6,8 @@ export const myDataSource = new DataSource({
   password: "123",
   database: "haircut",
   entities: ["./dist/entities/*.{ts,js}"],
+  migrations: ["./src/migration/**/*.ts"],
+  subscribers: ["./src/migration/**/*.ts"],
   logging: true,
   synchronize: true,
 });

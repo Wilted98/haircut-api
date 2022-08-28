@@ -4,12 +4,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Salon } from "./Salon";
 
-enum userRole {
+export enum userRole {
   USER = "user",
   HAIRSTYLIST = "hairstylist",
 }
@@ -50,5 +51,6 @@ export class User extends BaseEntity {
 
   @ManyToOne(() => Salon, (salon) => salon.users)
   @Field(() => Salon, { nullable: true })
-  salon: number;
+  @JoinColumn({ name: "salon_id" })
+  salon: Salon;
 }

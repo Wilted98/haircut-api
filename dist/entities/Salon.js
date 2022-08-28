@@ -37,11 +37,12 @@ __decorate([
 ], Salon.prototype, "rating", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => User_1.User, (user) => user.salon),
+    (0, type_graphql_1.Field)(() => [User_1.User], { nullable: true }),
     __metadata("design:type", Array)
 ], Salon.prototype, "users", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => Service_1.Service, (service) => service.salons),
-    (0, typeorm_1.JoinTable)(),
+    (0, typeorm_1.OneToMany)(() => Service_1.Service, (service) => service.salon, { onDelete: "CASCADE" }),
+    (0, type_graphql_1.Field)(() => [Service_1.Service], { nullable: true }),
     __metadata("design:type", Array)
 ], Salon.prototype, "services", void 0);
 Salon = __decorate([

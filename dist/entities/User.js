@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.User = exports.userRole = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const Salon_1 = require("./Salon");
@@ -17,7 +17,7 @@ var userRole;
 (function (userRole) {
     userRole["USER"] = "user";
     userRole["HAIRSTYLIST"] = "hairstylist";
-})(userRole || (userRole = {}));
+})(userRole = exports.userRole || (exports.userRole = {}));
 let User = class User extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -61,7 +61,8 @@ __decorate([
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Salon_1.Salon, (salon) => salon.users),
     (0, type_graphql_1.Field)(() => Salon_1.Salon, { nullable: true }),
-    __metadata("design:type", Number)
+    (0, typeorm_1.JoinColumn)({ name: "salon_id" }),
+    __metadata("design:type", Salon_1.Salon)
 ], User.prototype, "salon", void 0);
 User = __decorate([
     (0, type_graphql_1.ObjectType)(),

@@ -19,6 +19,8 @@ exports.userResolver = void 0;
 const User_1 = require("../entities/User");
 const type_graphql_1 = require("type-graphql");
 const argon2_1 = __importDefault(require("argon2"));
+const Salon_1 = require("../entities/Salon");
+const User_2 = require("../entities/User");
 let UserRegisterOptions = class UserRegisterOptions {
 };
 __decorate([
@@ -33,6 +35,14 @@ __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", String)
 ], UserRegisterOptions.prototype, "password", void 0);
+__decorate([
+    (0, type_graphql_1.Field)({ nullable: true }),
+    __metadata("design:type", Number)
+], UserRegisterOptions.prototype, "salonId", void 0);
+__decorate([
+    (0, type_graphql_1.Field)({ nullable: true }),
+    __metadata("design:type", String)
+], UserRegisterOptions.prototype, "user_type", void 0);
 UserRegisterOptions = __decorate([
     (0, type_graphql_1.InputType)()
 ], UserRegisterOptions);
@@ -119,6 +129,22 @@ let userResolver = class userResolver {
             };
         }
         const hashedPassword = await argon2_1.default.hash(options.password);
+        if (options.salonId) {
+            const salon = await Salon_1.Salon.findOne({ where: { id: options.salonId } });
+            if (salon) {
+                const user = await User_1.User.create({
+                    name: options.username,
+                    email: options.email,
+                    password: hashedPassword,
+                    salon,
+                    user_type: options.user_type,
+                }).save();
+                req.session.userId = user.id;
+                return {
+                    user,
+                };
+            }
+        }
         const user = await User_1.User.create({
             name: options.username,
             email: options.email,
@@ -178,6 +204,12 @@ let userResolver = class userResolver {
             resolve(true);
         }));
     }
+    async getAllHairStylists() {
+        return await User_1.User.find({
+            relations: { salon: true },
+            where: { user_type: User_2.userRole.HAIRSTYLIST },
+        });
+    }
 };
 __decorate([
     (0, type_graphql_1.Mutation)(() => userResponse),
@@ -215,6 +247,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], userResolver.prototype, "logout", null);
+__decorate([
+    (0, type_graphql_1.Query)(() => [User_1.User]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], userResolver.prototype, "getAllHairStylists", null);
 userResolver = __decorate([
     (0, type_graphql_1.Resolver)()
 ], userResolver);
