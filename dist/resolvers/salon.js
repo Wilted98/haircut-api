@@ -22,6 +22,16 @@ let salonResolver = class salonResolver {
         }).save();
         return salon;
     }
+    async getSalonById(id) {
+        const salon = await Salon_1.Salon.findOne({
+            where: { id },
+            relations: {
+                services: true,
+                users: true,
+            },
+        });
+        return salon;
+    }
 };
 __decorate([
     (0, type_graphql_1.Mutation)(() => Salon_1.Salon),
@@ -30,6 +40,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], salonResolver.prototype, "createSalon", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => Salon_1.Salon, { nullable: true }),
+    __param(0, (0, type_graphql_1.Arg)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], salonResolver.prototype, "getSalonById", null);
 salonResolver = __decorate([
     (0, type_graphql_1.Resolver)()
 ], salonResolver);

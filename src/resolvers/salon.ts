@@ -11,4 +11,16 @@ export class salonResolver {
 
     return salon;
   }
+
+  @Mutation(() => Salon, { nullable: true })
+  async getSalonById(@Arg("id") id: number): Promise<Salon | null> {
+    const salon = await Salon.findOne({
+      where: { id },
+      relations: {
+        services: true,
+        users: true,
+      },
+    });
+    return salon;
+  }
 }
