@@ -14,7 +14,7 @@ import { Salon } from "./Salon";
 export class Service extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
-  ID!: number;
+  id!: number;
 
   @Field()
   @Column()

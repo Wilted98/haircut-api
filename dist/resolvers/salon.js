@@ -22,7 +22,7 @@ let salonResolver = class salonResolver {
         }).save();
         return salon;
     }
-    async getSalonById(id) {
+    async getSalon(id) {
         const salon = await Salon_1.Salon.findOne({
             where: { id },
             relations: {
@@ -41,12 +41,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], salonResolver.prototype, "createSalon", null);
 __decorate([
-    (0, type_graphql_1.Mutation)(() => Salon_1.Salon, { nullable: true }),
-    __param(0, (0, type_graphql_1.Arg)("id")),
+    (0, type_graphql_1.Query)(() => Salon_1.Salon, { nullable: true }),
+    __param(0, (0, type_graphql_1.Arg)("id", () => type_graphql_1.Int)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], salonResolver.prototype, "getSalonById", null);
+], salonResolver.prototype, "getSalon", null);
 salonResolver = __decorate([
     (0, type_graphql_1.Resolver)()
 ], salonResolver);
