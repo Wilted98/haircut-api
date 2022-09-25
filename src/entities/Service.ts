@@ -9,6 +9,11 @@ import {
 } from "typeorm";
 import { Salon } from "./Salon";
 
+enum Currency {
+  LEI = "LEI",
+  EUR = "EUROS",
+  DOLLARS = "DOLLARS",
+}
 @ObjectType()
 @Entity()
 export class Service extends BaseEntity {
@@ -23,6 +28,18 @@ export class Service extends BaseEntity {
   @Field()
   @Column("int")
   price!: number;
+
+  @Field()
+  @Column({ default: 0 })
+  duration!: number;
+
+  @Field()
+  @Column({
+    type: "enum",
+    enum: Currency,
+    default: Currency.LEI,
+  })
+  currency!: Currency;
 
   @ManyToOne(() => Salon, (salon) => salon.services)
   @Field(() => Salon, { nullable: true })

@@ -13,6 +13,12 @@ exports.Service = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const Salon_1 = require("./Salon");
+var Currency;
+(function (Currency) {
+    Currency["LEI"] = "LEI";
+    Currency["EUR"] = "EUROS";
+    Currency["DOLLARS"] = "DOLLARS";
+})(Currency || (Currency = {}));
 let Service = class Service extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -30,6 +36,20 @@ __decorate([
     (0, typeorm_1.Column)("int"),
     __metadata("design:type", Number)
 ], Service.prototype, "price", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    (0, typeorm_1.Column)({ default: 0 }),
+    __metadata("design:type", Number)
+], Service.prototype, "duration", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    (0, typeorm_1.Column)({
+        type: "enum",
+        enum: Currency,
+        default: Currency.LEI,
+    }),
+    __metadata("design:type", String)
+], Service.prototype, "currency", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Salon_1.Salon, (salon) => salon.services),
     (0, type_graphql_1.Field)(() => Salon_1.Salon, { nullable: true }),

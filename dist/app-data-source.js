@@ -8,8 +8,8 @@ exports.myDataSource = new typeorm_1.DataSource({
     password: "123",
     database: "haircut",
     entities: ["./dist/entities/*.{ts,js}"],
-    migrations: ["./src/migration/**/*.ts"],
-    subscribers: ["./src/migration/**/*.ts"],
+    migrations: ["./dist/migrations/*.js"],
+    subscribers: ["./dist/migrations/*.js"],
     logging: true,
     synchronize: true,
 });

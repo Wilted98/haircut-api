@@ -10,6 +10,7 @@ import * as redis from "redis";
 import { salonResolver } from "./resolvers/salon";
 import { myDataSource } from "./app-data-source";
 import { serviceResolver } from "./resolvers/service";
+import { Service } from "./entities/Service";
 
 const main = async () => {
   myDataSource
