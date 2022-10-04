@@ -13,7 +13,7 @@ import { MyContext } from "src/types";
 import argon2 from "argon2";
 import { Salon } from "../entities/Salon";
 import { userRole } from "../entities/User";
-
+import { myDataSource } from "../app-data-source";
 @InputType()
 class UserRegisterOptions {
   @Field()
@@ -197,6 +197,21 @@ export class userResolver {
         resolve(true);
       })
     );
+  }
+
+  @Mutation(() => String)
+  async updateUserPicture(
+    @Arg("id") id: number,
+    @Arg("url") url: string
+  ): Promise<String> {
+    await myDataSource
+      .createQueryBuilder()
+      .update(User)
+      .set({ profile_picture: url })
+      .where("id = :id", { id })
+      .execute();
+
+    return url;
   }
 
   @Query(() => [User])

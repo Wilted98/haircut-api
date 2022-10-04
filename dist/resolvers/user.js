@@ -21,6 +21,7 @@ const type_graphql_1 = require("type-graphql");
 const argon2_1 = __importDefault(require("argon2"));
 const Salon_1 = require("../entities/Salon");
 const User_2 = require("../entities/User");
+const app_data_source_1 = require("../app-data-source");
 let UserRegisterOptions = class UserRegisterOptions {
 };
 __decorate([
@@ -204,6 +205,15 @@ let userResolver = class userResolver {
             resolve(true);
         }));
     }
+    async updateUserPicture(id, url) {
+        await app_data_source_1.myDataSource
+            .createQueryBuilder()
+            .update(User_1.User)
+            .set({ profile_picture: url })
+            .where("id = :id", { id })
+            .execute();
+        return url;
+    }
     async getAllHairStylists() {
         return await User_1.User.find({
             relations: { salon: true },
@@ -247,6 +257,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], userResolver.prototype, "logout", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => String),
+    __param(0, (0, type_graphql_1.Arg)("id")),
+    __param(1, (0, type_graphql_1.Arg)("url")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, String]),
+    __metadata("design:returntype", Promise)
+], userResolver.prototype, "updateUserPicture", null);
 __decorate([
     (0, type_graphql_1.Query)(() => [User_1.User]),
     __metadata("design:type", Function),
