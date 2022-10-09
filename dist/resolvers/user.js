@@ -186,7 +186,7 @@ let userResolver = class userResolver {
             return {
                 errors: [
                     {
-                        message: "Invalid email or password!",
+                        message: "Invalid email or wrong password!",
                         field: "Email",
                     },
                 ],

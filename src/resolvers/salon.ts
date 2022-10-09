@@ -1,5 +1,6 @@
 import { Salon } from "../entities/Salon";
 import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
+import { myDataSource } from "../app-data-source";
 
 @Resolver()
 export class salonResolver {
@@ -22,5 +23,9 @@ export class salonResolver {
       },
     });
     return salon;
+  }
+  @Query(() => [Salon], { nullable: true })
+  async getAllSalons(): Promise<Salon[]> {
+    return await myDataSource.createQueryBuilder(Salon, "salon").getMany();
   }
 }

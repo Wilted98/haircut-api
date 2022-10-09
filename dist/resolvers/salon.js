@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.salonResolver = void 0;
 const Salon_1 = require("../entities/Salon");
 const type_graphql_1 = require("type-graphql");
+const app_data_source_1 = require("../app-data-source");
 let salonResolver = class salonResolver {
     async createSalon(name) {
         const salon = await Salon_1.Salon.create({
@@ -32,6 +33,9 @@ let salonResolver = class salonResolver {
         });
         return salon;
     }
+    async getAllSalons() {
+        return await app_data_source_1.myDataSource.createQueryBuilder(Salon_1.Salon, "salon").getMany();
+    }
 };
 __decorate([
     (0, type_graphql_1.Mutation)(() => Salon_1.Salon),
@@ -47,6 +51,12 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], salonResolver.prototype, "getSalon", null);
+__decorate([
+    (0, type_graphql_1.Query)(() => [Salon_1.Salon], { nullable: true }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], salonResolver.prototype, "getAllSalons", null);
 salonResolver = __decorate([
     (0, type_graphql_1.Resolver)()
 ], salonResolver);
