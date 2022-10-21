@@ -37,6 +37,7 @@ const redis = __importStar(require("redis"));
 const salon_1 = require("./resolvers/salon");
 const app_data_source_1 = require("./app-data-source");
 const service_1 = require("./resolvers/service");
+const review_1 = require("./resolvers/review");
 const main = async () => {
     app_data_source_1.myDataSource
         .initialize()
@@ -69,7 +70,7 @@ const main = async () => {
     }));
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: await (0, type_graphql_1.buildSchema)({
-            resolvers: [user_1.userResolver, salon_1.salonResolver, service_1.serviceResolver],
+            resolvers: [user_1.userResolver, salon_1.salonResolver, service_1.serviceResolver, review_1.reviewResolver],
             validate: false,
         }),
         context: ({ req, res }) => ({ req, res }),

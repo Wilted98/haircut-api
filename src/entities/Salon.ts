@@ -8,6 +8,7 @@ import {
 } from "typeorm";
 import { User } from "./User";
 import { Service } from "./Service";
+import { Review } from "./Review";
 
 @ObjectType()
 @Entity()
@@ -31,4 +32,8 @@ export class Salon extends BaseEntity {
   @OneToMany(() => Service, (service) => service.salon, { onDelete: "CASCADE" })
   @Field(() => [Service], { nullable: true })
   services: Service[];
+
+  @OneToMany(() => Review, (review) => review.salon)
+  @Field(() => [Review], { nullable: true })
+  review: Review[];
 }

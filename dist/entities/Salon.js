@@ -14,6 +14,7 @@ const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const User_1 = require("./User");
 const Service_1 = require("./Service");
+const Review_1 = require("./Review");
 let Salon = class Salon extends typeorm_1.BaseEntity {
     constructor() {
         super(...arguments);
@@ -45,6 +46,11 @@ __decorate([
     (0, type_graphql_1.Field)(() => [Service_1.Service], { nullable: true }),
     __metadata("design:type", Array)
 ], Salon.prototype, "services", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => Review_1.Review, (review) => review.salon),
+    (0, type_graphql_1.Field)(() => [Review_1.Review], { nullable: true }),
+    __metadata("design:type", Array)
+], Salon.prototype, "review", void 0);
 Salon = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)()

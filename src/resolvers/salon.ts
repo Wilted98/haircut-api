@@ -1,6 +1,7 @@
 import { Salon } from "../entities/Salon";
 import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 import { myDataSource } from "../app-data-source";
+import { Review } from "src/entities/Review";
 
 @Resolver()
 export class salonResolver {

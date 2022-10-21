@@ -10,6 +10,7 @@ import * as redis from "redis";
 import { salonResolver } from "./resolvers/salon";
 import { myDataSource } from "./app-data-source";
 import { serviceResolver } from "./resolvers/service";
+import { reviewResolver } from "./resolvers/review";
 
 const main = async () => {
   myDataSource
@@ -49,7 +50,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [userResolver, salonResolver, serviceResolver],
+      resolvers: [userResolver, salonResolver, serviceResolver, reviewResolver],
       validate: false,
     }),
     context: ({ req, res }): MyContext => ({ req, res }),

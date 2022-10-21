@@ -6,8 +6,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
+import { Review } from "./Review";
 import { Salon } from "./Salon";
 
 export enum userRole {
@@ -47,7 +51,7 @@ export class User extends BaseEntity {
   createdAt?: Date;
 
   @Field(() => String)
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updatedAt?: Date;
 
   @Column()
@@ -57,4 +61,8 @@ export class User extends BaseEntity {
   @Field(() => Salon, { nullable: true })
   @JoinColumn({ name: "salon_id" })
   salon: Salon;
+
+  @OneToMany(() => Review, (review) => review.user)
+  @Field(() => [Review], { nullable: true })
+  review: Review[];
 }
