@@ -11,7 +11,10 @@ class ReviewOptions {
   comment: string;
   @Field()
   @Length(1, 5)
-  rating: number;
+  salon_rating: number;
+  @Field()
+  @Length(1, 5)
+  hairstylist_rating: number;
   @Field()
   user: number;
   @Field()
@@ -27,7 +30,8 @@ export class reviewResolver {
     const review = await Review.create({
       postedBy: options.postedBy,
       comment: options.comment,
-      rating: options.rating,
+      salon_rating: options.salon_rating,
+      hairstylist_rating: options.hairstylist_rating,
       user: { id: options.user },
       salon: { id: options.salon },
     }).save();

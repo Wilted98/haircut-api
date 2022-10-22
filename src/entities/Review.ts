@@ -29,7 +29,11 @@ export class Review extends BaseEntity {
 
   @Field()
   @Column("int")
-  rating: number;
+  salon_rating: number;
+
+  @Field()
+  @Column("int")
+  hairstylist_rating: number;
 
   @Field(() => String)
   @CreateDateColumn()

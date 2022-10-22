@@ -31,7 +31,12 @@ __decorate([
     (0, type_graphql_1.Field)(),
     (0, class_validator_1.Length)(1, 5),
     __metadata("design:type", Number)
-], ReviewOptions.prototype, "rating", void 0);
+], ReviewOptions.prototype, "salon_rating", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    (0, class_validator_1.Length)(1, 5),
+    __metadata("design:type", Number)
+], ReviewOptions.prototype, "hairstylist_rating", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", Number)
@@ -48,7 +53,8 @@ let reviewResolver = class reviewResolver {
         const review = await Review_1.Review.create({
             postedBy: options.postedBy,
             comment: options.comment,
-            rating: options.rating,
+            salon_rating: options.salon_rating,
+            hairstylist_rating: options.hairstylist_rating,
             user: { id: options.user },
             salon: { id: options.salon },
         }).save();

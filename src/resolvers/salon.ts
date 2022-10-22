@@ -1,7 +1,6 @@
 import { Salon } from "../entities/Salon";
 import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 import { myDataSource } from "../app-data-source";
-import { Review } from "src/entities/Review";
 
 @Resolver()
 export class salonResolver {
@@ -27,6 +26,16 @@ export class salonResolver {
   }
   @Query(() => [Salon], { nullable: true })
   async getAllSalons(): Promise<Salon[]> {
-    return await myDataSource.createQueryBuilder(Salon, "salon").getMany();
+    const salons = await myDataSource
+      .createQueryBuilder(Salon, "salon")
+      .leftJoinAndSelect("salon.review", "review")
+      .getMany();
+    salons.forEach(
+      (item) =>
+        (item.rating =
+          item.review.reduce((prev, curr) => prev + curr.salon_rating, 0) /
+          item.review.length)
+    );
+    return salons;
   }
 }

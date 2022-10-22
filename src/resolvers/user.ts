@@ -216,9 +216,18 @@ export class userResolver {
 
   @Query(() => [User])
   async getAllHairStylists(): Promise<User[]> {
-    return await User.find({
-      relations: { salon: true },
+    const users = await User.find({
+      relations: { salon: true, review: true },
       where: { user_type: userRole.HAIRSTYLIST },
     });
+    users.forEach(
+      (item) =>
+        (item.rating =
+          item.review.reduce(
+            (prev, curr) => prev + curr.hairstylist_rating,
+            0
+          ) / item.review.length)
+    );
+    return users;
   }
 }

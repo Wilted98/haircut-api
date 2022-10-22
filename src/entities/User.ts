@@ -7,7 +7,6 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -29,6 +28,10 @@ export class User extends BaseEntity {
   @Field()
   @Column()
   name!: string;
+
+  @Field()
+  @Column("int", { nullable: true })
+  rating?: number = 0;
 
   @Field()
   @Column({

@@ -215,10 +215,13 @@ let userResolver = class userResolver {
         return url;
     }
     async getAllHairStylists() {
-        return await User_1.User.find({
-            relations: { salon: true },
+        const users = await User_1.User.find({
+            relations: { salon: true, review: true },
             where: { user_type: User_2.userRole.HAIRSTYLIST },
         });
+        users.forEach((item) => (item.rating =
+            item.review.reduce((prev, curr) => prev + curr.hairstylist_rating, 0) / item.review.length));
+        return users;
     }
 };
 __decorate([

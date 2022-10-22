@@ -34,7 +34,14 @@ let salonResolver = class salonResolver {
         return salon;
     }
     async getAllSalons() {
-        return await app_data_source_1.myDataSource.createQueryBuilder(Salon_1.Salon, "salon").getMany();
+        const salons = await app_data_source_1.myDataSource
+            .createQueryBuilder(Salon_1.Salon, "salon")
+            .leftJoinAndSelect("salon.review", "review")
+            .getMany();
+        salons.forEach((item) => (item.rating =
+            item.review.reduce((prev, curr) => prev + curr.salon_rating, 0) /
+                item.review.length));
+        return salons;
     }
 };
 __decorate([

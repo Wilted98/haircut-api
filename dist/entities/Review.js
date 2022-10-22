@@ -35,7 +35,12 @@ __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)("int"),
     __metadata("design:type", Number)
-], Review.prototype, "rating", void 0);
+], Review.prototype, "salon_rating", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    (0, typeorm_1.Column)("int"),
+    __metadata("design:type", Number)
+], Review.prototype, "hairstylist_rating", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)(),
