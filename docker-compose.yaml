@@ -1,0 +1,53 @@
+version: "3"
+services:
+  postgres:
+    container_name: postgres-haircut-docker
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+    volumes:
+       - ./postgres:/data/postgres
+    environment:
+      POSTGRES_DB: haircut
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: vasi123
+      PGDATA: /data/postgres
+  redis: 
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis:/data
+      
+  backend:
+    container_name: node-haircut-docker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - default
+    environment:
+      - NODE_ENV=production
+    tty: true
+    stdin_open: true
+    depends_on:
+      - redis
+      - postgres
+    ports:
+      - "6000:6000"
+
+  nginx:
+    restart: always
+    build:
+        context: ./nginx
+        dockerfile: Dockerfile
+    ports:
+        - "80:80"
+
+networks:
+  default:
+    name: backend-network-haircut-docker
+

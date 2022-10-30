@@ -10,7 +10,9 @@
     "start2": "ts-node src/index.ts",
     "create:migration": "npx typeorm migration:generate -d ./dist/app-data-source.js the_new_migration",
     "run:migration": "npx typeorm migration:run -d ./dist/app-data-source.js",
-    "dev2": "nodemon --exec ts-node src/index.ts"
+    "dev2": "nodemon --exec ts-node src/index.ts",
+    "build": "tsc -p .",
+    "start-prod": "NODE_ENV=production pm2 start dist/index.js"
   },
   "keywords": [],
   "author": "",

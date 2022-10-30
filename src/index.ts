@@ -11,6 +11,7 @@ import { salonResolver } from "./resolvers/salon";
 import { myDataSource } from "./app-data-source";
 import { serviceResolver } from "./resolvers/service";
 import { reviewResolver } from "./resolvers/review";
+import cors from "cors";
 
 const main = async () => {
   myDataSource
@@ -25,8 +26,20 @@ const main = async () => {
   const app = express();
 
   const RedisStore = connectRedis(session);
-  const redisClient = redis.createClient({ legacyMode: true });
+  const redisClient = redis.createClient({
+    url: "redis://redis:6379",
+    legacyMode: true,
+  });
   await redisClient.connect();
+
+  app.set("proxy", 1);
+
+  app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN,
+      credentials: true,
+    })
+  );
 
   app.use(
     session({
@@ -42,7 +55,7 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
         httpOnly: true,
-        secure: __prod__,
+        secure: false,
         sameSite: "lax",
       },
     })
@@ -56,9 +69,9 @@ const main = async () => {
     context: ({ req, res }): MyContext => ({ req, res }),
   });
   await apolloServer.start();
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({ app, cors: false });
 
-  app.listen(4000, () => console.log("Server started!"));
+  app.listen(6000, () => console.log("Server started!"));
 };
 
 main();
