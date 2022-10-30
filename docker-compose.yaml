@@ -38,15 +38,7 @@ services:
       - postgres
     ports:
       - "6000:6000"
-
-  nginx:
-    restart: always
-    build:
-        context: ./nginx
-        dockerfile: Dockerfile
-    ports:
-        - "80:80"
-
+      
 networks:
   default:
     name: backend-network-haircut-docker
