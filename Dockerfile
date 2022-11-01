@@ -28,7 +28,7 @@ RUN npm --global config set user "${USER}"
 
 USER node
 
-RUN npm install --loglevel=warn;
+RUN npm install --loglevel=warn; 
 
 RUN npm i --location=global pm2 
 
