@@ -9,7 +9,7 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - uses: actions/checkout@v3
+      # - uses: actions/checkout@v3 this only need to run once!
       - name: Git pull
         run: git pull
       - name: Stop the Docker Processes
