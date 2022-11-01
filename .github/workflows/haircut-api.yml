@@ -9,8 +9,6 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Change Directory
-        run: cd haircut-api
       - name: Git pull
         run: git pull
       - name: Stop the Docker Processes
