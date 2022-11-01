@@ -30,7 +30,7 @@ USER node
 
 RUN npm install --loglevel=warn;
 
-RUN npm i --location=global pm2
+RUN npm i --location=global pm2 
 
 RUN npm run build
 
