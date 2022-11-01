@@ -27,7 +27,7 @@ const main = async () => {
 
   const RedisStore = connectRedis(session);
   const redisClient = redis.createClient({
-    url: "redis://redis:6379",
+    url: __prod__ ? "redis://redis:6379" : undefined,
     legacyMode: true,
   });
   await redisClient.connect();

@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { __prod__ } from "./constants";
+import { postgresDev, postgresProd, __prod__ } from "./constants";
 
 export const myDataSource = new DataSource({
   type: "postgres",
@@ -11,7 +11,5 @@ export const myDataSource = new DataSource({
   subscribers: ["./dist/migrations/*.js"],
   logging: true,
   synchronize: true,
-  url: __prod__
-    ? "postgres://postgres:vasi123@postgres-haircut-docker:5432/haircut"
-    : "postgres://postgres:vasi123@haircut.vpopescu.com:5432/haircut",
+  url: __prod__ ? postgresProd : postgresDev,
 });
