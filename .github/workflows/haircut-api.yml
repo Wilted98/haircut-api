@@ -13,7 +13,7 @@ jobs:
       - name: Stop the Docker Processes
         run: sudo docker-compose down
       - name: Remove image
-        run: sudo docker image rm haircut-api_backend_haircut
+        run: sudo docker image rm haircut-api_backend_haircut --force
       - name: Clean up system
         run: sudo docker system prune -y
       - name: Build and Run the image
