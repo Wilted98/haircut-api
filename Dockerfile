@@ -20,7 +20,7 @@ RUN mkdir /home/node/.npm-global
 
 RUN chown -R 1000:1000 /home/node/.npm-global
 
-ENV PATH=/home/node/.npm-global/bin:$PATH
+ENV PATH=/home/node/.npm-global/bin:$PATH 
 
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 

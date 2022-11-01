@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Change Directory
         run: cd haircut-api
+      - name: Git pull
+        run: git pull
       - name: Stop the Docker Processes
         run: sudo docker-compose down
       - name: Remove image
