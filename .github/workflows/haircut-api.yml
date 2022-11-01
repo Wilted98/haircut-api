@@ -17,4 +17,4 @@ jobs:
       - name: Clean up system
         run: sudo docker system prune -f
       - name: Build and Run the image
-        run: sudo docker-compose up
+        run: sudo docker-compose up -d
