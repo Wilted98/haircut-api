@@ -54,7 +54,7 @@ const main = async () => {
       name: "qid",
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
-        httpOnly: false,
+        httpOnly: true,
         secure: false,
         sameSite: "lax",
       },
