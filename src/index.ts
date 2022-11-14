@@ -33,8 +33,6 @@ const main = async () => {
   });
   await redisClient.connect();
 
-  app.set("proxy", 1);
-
   app.use(
     cors({
       origin: process.env.CORS_ORIGIN,
@@ -70,7 +68,7 @@ const main = async () => {
     context: ({ req, res }): MyContext => ({ req, res }),
   });
   await apolloServer.start();
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({ app, cors: false });
 
   app.listen(6000, () => console.log("Server started!"));
 };
