@@ -21,10 +21,6 @@ export class Review extends BaseEntity {
 
   @Field()
   @Column()
-  postedBy: number;
-
-  @Field()
-  @Column()
   comment: string;
 
   @Field()
@@ -49,6 +45,13 @@ export class Review extends BaseEntity {
     name: "user_id",
   })
   user: User;
+
+  @ManyToOne(() => User, (user) => user.postedBy)
+  @Field(() => User, { nullable: true })
+  @JoinColumn({
+    name: "postedBy_id",
+  })
+  postedBy: User;
 
   @ManyToOne(() => Salon, (salon) => salon.review)
   @Field(() => Salon, { nullable: true })

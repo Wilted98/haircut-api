@@ -223,10 +223,12 @@ export class userResolver {
     users.forEach(
       (item) =>
         (item.rating =
-          item.review.reduce(
-            (prev, curr) => prev + curr.hairstylist_rating,
-            0
-          ) / item.review.length)
+          item.review.length > 0
+            ? item.review.reduce(
+                (prev, curr) => prev + curr.hairstylist_rating,
+                0
+              ) / item.review.length
+            : 0)
     );
     return users;
   }

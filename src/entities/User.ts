@@ -68,4 +68,8 @@ export class User extends BaseEntity {
   @OneToMany(() => Review, (review) => review.user)
   @Field(() => [Review], { nullable: true })
   review: Review[];
+
+  @OneToMany(() => Review, (review) => review.postedBy)
+  @Field(() => [Review], { nullable: true })
+  postedBy: Review[];
 }

@@ -12,6 +12,7 @@ import { myDataSource } from "./app-data-source";
 import { serviceResolver } from "./resolvers/service";
 import { reviewResolver } from "./resolvers/review";
 import cors from "cors";
+import "reflect-metadata";
 
 const main = async () => {
   myDataSource

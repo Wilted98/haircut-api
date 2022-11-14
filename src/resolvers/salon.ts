@@ -20,6 +20,7 @@ export class salonResolver {
       relations: {
         services: true,
         users: true,
+        review: true,
       },
     });
     return salon;
@@ -33,8 +34,10 @@ export class salonResolver {
     salons.forEach(
       (item) =>
         (item.rating =
-          item.review.reduce((prev, curr) => prev + curr.salon_rating, 0) /
-          item.review.length)
+          item.review.length > 0
+            ? item.review.reduce((prev, curr) => prev + curr.salon_rating, 0) /
+              item.review.length
+            : 0)
     );
     return salons;
   }
