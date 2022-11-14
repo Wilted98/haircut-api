@@ -32,7 +32,7 @@ const main = async () => {
   });
   await redisClient.connect();
 
-  app.set("trust proxy", 1);
+  app.set("proxy", 1);
 
   app.use(
     cors({
