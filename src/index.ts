@@ -12,7 +12,6 @@ import { myDataSource } from "./app-data-source";
 import { serviceResolver } from "./resolvers/service";
 import { reviewResolver } from "./resolvers/review";
 import cors from "cors";
-import "reflect-metadata";
 
 const main = async () => {
   myDataSource
@@ -33,7 +32,7 @@ const main = async () => {
   });
   await redisClient.connect();
 
-  app.set("proxy", 1);
+  app.set("trust proxy", 1);
 
   app.use(
     cors({
