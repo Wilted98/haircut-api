@@ -32,11 +32,11 @@ const main = async () => {
   });
   await redisClient.connect();
 
-  app.set("proxy", 1);
+  app.set("trust proxy", true);
 
   app.use(
     cors({
-      origin: process.env.CORS_ORIGIN,
+      origin: "http://localhost:3000",
       credentials: true,
     })
   );
@@ -55,7 +55,7 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: "lax",
       },
     })
@@ -67,9 +67,10 @@ const main = async () => {
       validate: false,
     }),
     context: ({ req, res }): MyContext => ({ req, res }),
+    cache: "bounded",
   });
   await apolloServer.start();
-  apolloServer.applyMiddleware({ app, cors: false });
+  apolloServer.applyMiddleware({ app, cors: true });
 
   app.listen(6000, () => console.log("Server started!"));
 };
