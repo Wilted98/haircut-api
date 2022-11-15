@@ -70,7 +70,7 @@ const main = async () => {
     cache: "bounded",
   });
   await apolloServer.start();
-  apolloServer.applyMiddleware({ app, cors: true });
+  apolloServer.applyMiddleware({ app, cors: false });
 
   app.listen(6000, () => console.log("Server started!"));
 };
