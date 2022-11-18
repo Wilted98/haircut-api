@@ -1,5 +1,5 @@
 import express from "express";
-import { __prod__ } from "./constants";
+import { devPORT, prodPORT, __prod__ } from "./constants";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { userResolver } from "./resolvers/user";
@@ -36,7 +36,7 @@ const main = async () => {
 
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: __prod__ ? "http://localhost:3000" : undefined,
       credentials: true,
     })
   );
@@ -71,7 +71,9 @@ const main = async () => {
   await apolloServer.start();
   apolloServer.applyMiddleware({ app, cors: false });
 
-  app.listen(6000, () => console.log("Server started!"));
+  app.listen(__prod__ ? prodPORT : devPORT, () =>
+    console.log("Server started!")
+  );
 };
 
 main();

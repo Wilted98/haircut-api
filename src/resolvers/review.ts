@@ -1,13 +1,5 @@
 import { Review } from "../entities/Review";
-import {
-  Arg,
-  Field,
-  InputType,
-  Int,
-  Mutation,
-  Query,
-  Resolver,
-} from "type-graphql";
+import { Arg, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
 import { Length } from "class-validator";
 
 @InputType()
@@ -29,6 +21,14 @@ class ReviewOptions {
   salon: number;
 }
 
+@InputType()
+class GetReviewsOptions {
+  @Field()
+  id: number;
+  @Field()
+  sortBy: string;
+}
+
 @Resolver()
 export class reviewResolver {
   @Mutation(() => Review)
@@ -46,10 +46,13 @@ export class reviewResolver {
     return review;
   }
   @Query(() => [Review], { nullable: true })
-  async getReviews(@Arg("id", () => Int) id: number): Promise<Review[] | null> {
+  async getReviews(
+    @Arg("options") options: GetReviewsOptions
+  ): Promise<Review[] | null> {
     const reviews = await Review.find({
-      where: { salon: { id: id } },
+      where: { salon: { id: options.id } },
       relations: { user: true, postedBy: true },
+      order: { createdAt: options.sortBy === "oldest" ? "DESC" : "ASC" },
     });
     return reviews;
   }
