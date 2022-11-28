@@ -69,7 +69,7 @@ const main = async () => {
     context: ({ req, res }): MyContext => ({ req, res }),
   });
   await apolloServer.start();
-  apolloServer.applyMiddleware({ app, cors: false });
+  apolloServer.applyMiddleware({ app });
 
   app.listen(__prod__ ? prodPORT : devPORT, () =>
     console.log("Server started!")
