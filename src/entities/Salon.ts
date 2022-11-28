@@ -4,11 +4,13 @@ import {
   Column,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
 import { Service } from "./Service";
 import { Review } from "./Review";
+import { Gallery } from "./Gallery";
 
 @ObjectType()
 @Entity()
@@ -36,4 +38,8 @@ export class Salon extends BaseEntity {
   @OneToMany(() => Review, (review) => review.salon)
   @Field(() => [Review], { nullable: true })
   review: Review[];
+
+  @OneToOne(() => Gallery, (gallery) => gallery.salon)
+  @Field(() => Gallery, { nullable: true })
+  gallery: Gallery;
 }

@@ -12,6 +12,7 @@ import { myDataSource } from "./app-data-source";
 import { serviceResolver } from "./resolvers/service";
 import { reviewResolver } from "./resolvers/review";
 import cors from "cors";
+import { galleryResolver } from "./resolvers/gallery";
 
 const main = async () => {
   myDataSource
@@ -63,7 +64,13 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [userResolver, salonResolver, serviceResolver, reviewResolver],
+      resolvers: [
+        userResolver,
+        salonResolver,
+        serviceResolver,
+        reviewResolver,
+        galleryResolver,
+      ],
       validate: false,
     }),
     context: ({ req, res }): MyContext => ({ req, res }),
